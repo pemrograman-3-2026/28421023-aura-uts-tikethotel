@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+enum Role{
+  USER
+  HOTEL
+
+}
+
+model User {
+id_user Int @id @default(autoincrement())
+name String @unique
+email String
+password String
+no_hp String
+alamat String
+role Role @default(USER)
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+pemesanan Pemesanan[]
+
+@@map("users")
+}
+
+model Hotel {
+id_hotel Int @id @default(autoincrement())
+nama_hotel String 
+kota String
+alamat String
+role Role @default(HOTEL)
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+kamar Kamar[]
+
+@@map("hotels")
+}
+
+model Kamar {
+id_kamar Int @id @default(autoincrement())
+no_kamar String
+harga String
+id_hotel Int
+hotel Hotel @relation(fields: [id_hotel], references: [id_hotel])
+created_at DateTime @default(now())
+updated_at DateTime @updatedAt
+pemesanan Pemesanan[]
+
+@@map("kamars")
+}
+
+
+model Pemesanan {
+id_pemesanan Int @id @default(autoincrement())
+tanggal_checkin DateTime @default(now())
+tanggal_checkout DateTime @default(now())
+total_harga String
+userID  Int
+kamarID Int
+user  User @relation(fields: [userID], references: [id_user])
+kamar Kamar @relation(fields: [kamarID], references: [id_kamar])
+pembayaran Pembayaran[]
+
+@@map("pemesanans")
+}
+
+model Pembayaran {
+  id_pembayaran Int @id @default(autoincrement())
+  metode String
+  tanggal_bayar DateTime @default(now())
+  jumlah_bayar String
+  pemesananID Int
+  pemesanan Pemesanan @relation(fields: [pemesananID], references: [id_pemesanan])
+
+  @@map("pembayarans")
+
+  
+}

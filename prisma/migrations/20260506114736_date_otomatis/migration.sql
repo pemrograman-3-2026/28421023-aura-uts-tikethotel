@@ -1,0 +1,12 @@
+-- AlterTable
+ALTER TABLE `hotels` MODIFY `role` ENUM('USER', 'HOTEL') NOT NULL DEFAULT 'HOTEL';
+
+-- AlterTable
+ALTER TABLE `pembayarans` MODIFY `tanggal_bayar` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `pemesanans` MODIFY `tanggal_checkin` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    MODIFY `tanggal_checkout` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `users` MODIFY `role` ENUM('USER', 'HOTEL') NOT NULL DEFAULT 'USER';

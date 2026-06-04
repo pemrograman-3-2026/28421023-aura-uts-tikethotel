@@ -1,12 +1,12 @@
 import express from "express"
-import { create,getById,getALL,update,destroy } from "../controllers/kamar.controller.js"
+import { create,getById,getALL,update, deleteKamar } from "../controllers/kamar.controller.js"
 
 const router = express.Router()
 router.post('/create',create)
-router.post('/getById', getById)
-router.post('/getALL',getALL)
-router.post("/update",update)
-router.post("/delete",destroy)
+router.get('/get/:id', getById)
+router.get('/getALL',getALL)
+router.put('/update/:id',update)
+router.delete('/delete/:id',deleteKamar)
 
 
 export default router

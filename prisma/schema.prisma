@@ -66,6 +66,7 @@ tanggal_checkout DateTime @default(now())
 total_harga String
 userID  Int
 kamarID Int
+image String
 user  User @relation(fields: [userID], references: [id_user])
 kamar Kamar @relation(fields: [kamarID], references: [id_kamar])
 pembayaran Pembayaran[]

@@ -22,7 +22,7 @@ export const create = async (req,res) => {
 }
 
 export const getById = async (req,res) => {
-    const id_kamar =req.body.id_kamar
+    const id_kamar =req.params.id
     const kamar = await prisma.kamar.findUnique({
         where : {
             id_kamar: Number(id_kamar)
@@ -36,10 +36,7 @@ export const getById = async (req,res) => {
             message : "data tidak ditemukan"
         })
     }
-     return res.json({
-        message : "berhasil mengambil data",
-        data : kamar
-    })
+     return res.json(kamar)
 }
 
 export const getALL =  async (req,res) => {
@@ -49,59 +46,35 @@ export const getALL =  async (req,res) => {
         }
     })
 
-     return res.json({
-        message : "berhasil mengambil semua data",
-        data : kamar
+     return res.json(kamar)
+}
+
+export const update = async (req, res) => {
+    const idKamar = Number(req.params.id)
+
+    await prisma.kamar.update({
+        where: {
+            id_kamar: idKamar
+        },
+        data: req.body
     })
+
+    res.json({
+        message: 'Data was updated successfully'
+    })
+
 }
+export const deleteKamar = async (req, res) => {
+    const idKamar = Number(req.params.id)
 
-export const update = async (req,res) => {
-    try {
-        const { id_kamar, no_kamar, harga, id_hotel } = req.body
+    await prisma.kamar.delete({
+        where: {
+            id_kamar: idKamar
+        },
 
-        const updateKamar = await prisma.kamar.update({
-            where: {
-                id_kamar: Number(id_kamar)
-            },
-            data: {
-                no_kamar: no_kamar,
-                harga: harga,
-                id_hotel: id_hotel
-            }, 
-            include: {
-                pemesanan:true
-            }
-        })
-
-       return res.json({
-            message: "data berhasil diperbarui",
-            data: updateKamar
-        })
-
-    } catch (error) {
-        
-       return res.status(400).json({
-            message: "data gagal diperbarui, id tidak ditemukan "
-        })
-    }
-}
-
-export const destroy = async (req, res) => {
-    try {
-        const { id_kamar } = req.body
-
-        await prisma.kamar.delete({
-            where: {
-                id_kamar: Number(id_kamar)
-            }
-        })
-
-        return res.json({
-            message: "Data kamar berhasil dihapus"
-        })
-    } catch (error) {
-        return res.status(400).json({
-            message: "Gagal menghapus, ID tidak ditemukan"
-        })
-    }
+        data: req.body
+    })
+    res.json({
+        message: 'Data was deleted successfully'
+    })
 }

@@ -1,12 +1,12 @@
 import express from "express"
-import { create,getById,getALL,update,destroy } from "../controllers/hotel.controller.js"
+import { create,getById,getALL,update, deleteHotel } from "../controllers/hotel.controller.js"
 
 const router = express.Router()
 router.post('/create',create)
-router.post('/getById', getById)
-router.post('/getALL',getALL)
-router.post("/update",update)
-router.post("/delete",destroy)
+router.get('/get/:id', getById)
+router.get('/getALL',getALL)
+router.put("/update/:id",update)
+router.delete("/delete/:id",deleteHotel)
 
 
 export default router

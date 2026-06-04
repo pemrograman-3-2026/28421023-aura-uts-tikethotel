@@ -22,7 +22,7 @@ export const create = async (req,res) => {
 }
 
 export const getById = async (req,res) => {
-    const id_pembayaran =req.body.id_pembayaran
+    const id_pembayaran =req.params.id
     const pembayaran = await prisma.pembayaran.findUnique({
         where : {
             id_pembayaran: Number(id_pembayaran)
@@ -33,66 +33,41 @@ export const getById = async (req,res) => {
             message : "data tidak ditemukan"
         })
     }
-     return res.json({
-        message : "berhasil mengambil data",
-        data : pembayaran
-    })
+     return res.json(pembayaran)
 }
 
 export const getALL =  async (req,res) => {
     const pembayaran = await prisma.pembayaran.findMany()
 
-     return res.json({
-        message : "berhasil mengambil semua data",
-        data : pembayaran
+     return res.json(pembayaran)
+}
+
+export const update = async (req, res) => {
+    const idPembayaran = Number(req.params.id)
+
+    await prisma.pembayaran.update({
+        where: {
+            id_pembayaran: idPembayaran
+        },
+        data: req.body
     })
+
+    res.json({
+        message: 'Data was updated successfully'
+    })
+
 }
+export const deletePembayaran = async (req, res) => {
+    const idPembayaran = Number(req.params.id)
 
-export const update = async (req,res) => {
-    try {
-        const { id_pembayaran, metode, jumlah_bayar, pemesananID } = req.body
+    await prisma.pembayaran.delete({
+        where: {
+            id_pembayaran: idPembayaran
+        },
 
-        const updatepembayaran = await prisma.pembayaran.update({
-            where: {
-                id_pembayaran: Number(id_pembayaran)
-            },
-            data: {
-                metode: metode,
-                jumlah_bayar: jumlah_bayar,
-                pemesananID: pemesananID
-            }, 
-            
-        })
-
-       return res.json({
-            message: "data berhasil diperbarui",
-            data: updatepembayaran
-        })
-
-    } catch (error) {
-        
-       return res.status(400).json({
-            message: "data gagal diperbarui, id tidak ditemukan "
-        })
-    }
-}
-
-export const destroy = async (req, res) => {
-    try {
-        const { id_pembayaran } = req.body
-
-        await prisma.pembayaran.delete({
-            where: {
-                id_pembayaran: Number(id_pembayaran)
-            }
-        })
-
-        return res.json({
-            message: "Data pembayaran berhasil dihapus"
-        })
-    } catch (error) {
-        return res.status(400).json({
-            message: "Gagal menghapus, ID tidak ditemukan"
-        })
-    }
+        data: req.body
+    })
+    res.json({
+        message: 'Data was deleted successfully'
+    })
 }

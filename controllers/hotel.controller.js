@@ -40,11 +40,7 @@ export const getById = async (req,res) => {
 }
 
 export const getALL =  async (req,res) => {
-    const hotel = await prisma.hotel.findMany({
-        include: {
-            kamar:true
-        }
-    })
+    const hotel = await prisma.hotel.findMany({})
 
      return res.json(hotel)
 }

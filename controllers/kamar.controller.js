@@ -3,11 +3,12 @@ import {prisma} from "../lib/prisma.js"
 export const create = async (req,res) => {
     const body = req.body
 
+
     await prisma.kamar.create({
         data : {
             no_kamar : body.no_kamar,
             harga : body.harga,
-            id_hotel : body.id_hotel
+            id_hotel : Number (body.id_hotel)
 
         }
     }
@@ -42,7 +43,7 @@ export const getById = async (req,res) => {
 export const getALL =  async (req,res) => {
     const kamar = await prisma.kamar.findMany({
         include: {
-            pemesanan:true
+            hotel:true
         }
     })
 

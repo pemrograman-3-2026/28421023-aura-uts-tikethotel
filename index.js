@@ -10,7 +10,10 @@ import cors from 'cors'
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
 
 const imagepath = express.static(path.join(process.cwd(), 'uploads'))
 app.use('/image', imagepath)
@@ -26,6 +29,6 @@ app.use('/pemesanan', PemesananRoute)
 app.use('/pembayaran', PembayaranRoute)
 
 
-app.listen(3000, () => {
+app.listen(3100, () => {
     console.log('server started')
 })

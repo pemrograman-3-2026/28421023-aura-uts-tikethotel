@@ -50,7 +50,8 @@ export const getById = async (req,res) => {
 export const getALL =  async (req,res) => {
     const pemesanan = await prisma.pemesanan.findMany({
         include: {
-            pembayaran:true
+            user: true,
+            kamar: true
         }
     })
 

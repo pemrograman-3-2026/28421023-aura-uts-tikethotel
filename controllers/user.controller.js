@@ -59,11 +59,36 @@ export const login = async (req, res) => {
         })
     }
 
+    const dataSession = JSON.stringify({
+        name,
+        no_hp: isUsernameExist.no_hp,
+        email: isUsernameExist.email,
+        alamat: isUsernameExist.alamat,
+        role: isUsernameExist.role
+    })
+
+    res.cookie('user', dataSession, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    })
+
     return res.json ({
         message: 'Login Successfully',
         data: {
             name:isUsernameExist.name,
+            no_hp:isUsernameExist.no_hp,
+            email:isUsernameExist.email,
+            alamat:isUsernameExist.alamat,
             role: isUsernameExist.role
         }
     })
+}
+
+export const getALL =  async (req,res) => {
+    const user = await prisma.user.findMany({})
+
+     return res.json(user)
 }

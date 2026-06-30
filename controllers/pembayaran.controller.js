@@ -37,7 +37,11 @@ export const getById = async (req,res) => {
 }
 
 export const getALL =  async (req,res) => {
-    const pembayaran = await prisma.pembayaran.findMany()
+    const pembayaran = await prisma.pembayaran.findMany({
+        include: {
+            pemesanan: true
+        }
+    })
 
      return res.json(pembayaran)
 }

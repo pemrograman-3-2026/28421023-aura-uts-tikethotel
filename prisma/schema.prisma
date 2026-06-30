@@ -50,7 +50,7 @@ id_kamar Int @id @default(autoincrement())
 no_kamar String
 harga String
 id_hotel Int
-hotel Hotel @relation(fields: [id_hotel], references: [id_hotel])
+hotel Hotel @relation(fields: [id_hotel], references: [id_hotel], onDelete: Cascade)
 created_at DateTime @default(now())
 updated_at DateTime @updatedAt
 pemesanan Pemesanan[]
@@ -68,7 +68,7 @@ userID  Int
 kamarID Int
 image String
 user  User @relation(fields: [userID], references: [id_user])
-kamar Kamar @relation(fields: [kamarID], references: [id_kamar])
+kamar Kamar @relation(fields: [kamarID], references: [id_kamar], onDelete: Cascade)
 pembayaran Pembayaran[]
 
 @@map("pemesanans")
@@ -80,7 +80,7 @@ model Pembayaran {
   tanggal_bayar DateTime @default(now())
   jumlah_bayar String
   pemesananID Int
-  pemesanan Pemesanan @relation(fields: [pemesananID], references: [id_pemesanan])
+  pemesanan Pemesanan @relation(fields: [pemesananID], references: [id_pemesanan], onDelete: Cascade)
 
   @@map("pembayarans")
 
